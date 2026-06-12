@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Shop — Productos virales</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #0066FF;
+    --primary-dark: #0052CC;
+    --accent: #FF3B30;
+    --text: #0D0D0D;
+    --text-muted: #6B7280;
+    --white: #FFFFFF;
+    --bg: #F5F7FA;
+    --border: #E2E8F0;
+    --card: #FFFFFF;
+  }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+  nav {
+    background: var(--text);
+    padding: 0.9rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo { font-size: 1.3rem; font-weight: 800; color: white; letter-spacing: -0.5px; }
+  .logo span { color: var(--primary); }
+  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+  .nav-links a { color: #9CA3AF; text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+  .nav-links a:hover { color: white; }
+  .nav-cta { background: var(--primary); color: white !important; padding: 0.45rem 1rem; border-radius: 8px; font-weight: 600 !important; }
+
+  .trust-bar {
+    background: var(--primary);
+    color: white;
+    padding: 0.6rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .hero {
+    background: var(--text);
+    padding: 5rem 2rem 6rem;
+    text-align: center;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    letter-spacing: -1.5px;
+  }
+  .hero h1 em { font-style: normal; color: var(--primary); }
+  .hero p { font-size: 1.05rem; color: #9CA3AF; max-width: 500px; margin: 0 auto 2.5rem; }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: var(--primary); color: white; padding: 0.9rem 2rem; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 1rem; transition: background 0.2s; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-ghost { background: transparent; color: white; padding: 0.9rem 2rem; border-radius: 10px; font-weight: 600; text-decoration: none; font-size: 1rem; border: 1px solid #374151; }
+
+  .section { padding: 4rem 1.5rem; max-width: 1000px; margin: 0 auto; }
+  .section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2rem; }
+  .section-title { font-size: 1.5rem; font-weight: 700; }
+  .section-sub { font-size: 0.85rem; color: var(--text-muted); }
+
+  .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+  .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+  .product-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
+  .product-img { background: linear-gradient(135deg, #1a1a2e, #16213e); height: 200px; display: flex; align-items: center; justify-content: center; font-size: 5rem; position: relative; }
+  .product-badge { position: absolute; top: 12px; left: 12px; background: var(--accent); color: white; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 20px; }
+  .spain-badge { position: absolute; top: 12px; right: 12px; background: #28C76F; color: white; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 20px; }
+  .product-body { padding: 1.25rem; }
+  .product-name { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .product-desc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem; line-height: 1.5; }
+  .product-stars { color: #F59E0B; font-size: 0.85rem; margin-bottom: 0.75rem; }
+  .product-stars span { color: var(--text-muted); font-size: 0.78rem; margin-left: 4px; }
+  .product-footer { display: flex; justify-content: space-between; align-items: center; }
+  .product-price { font-size: 1.3rem; font-weight: 800; color: var(--text); }
+  .product-price-old { font-size: 0.82rem; color: var(--text-muted); text-decoration: line-through; display: block; }
+  .btn-add { background: var(--primary); color: white; border: none; padding: 0.6rem 1.1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+  .btn-add:hover { background: var(--primary-dark); }
+
+  .product-detail {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 3rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+  @media (max-width: 620px) {
+    .product-detail { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2rem; }
+    .trust-bar { gap: 1rem; }
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+  .detail-img {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8rem;
+    min-height: 340px;
+    padding: 2rem;
+  }
+  .detail-info { padding: 2rem; display: flex; flex-direction: column; gap: 1rem; justify-content: center; }
+  .detail-name { font-size: 1.5rem; font-weight: 800; line-height: 1.3; }
+  .detail-stars { color: #F59E0B; font-size: 0.95rem; }
+  .detail-stars span { color: var(--text-muted); font-size: 0.82rem; margin-left: 4px; }
+  .detail-price-block { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .detail-price { font-size: 2.4rem; font-weight: 800; color: var(--primary); }
+  .detail-price-old { font-size: 1rem; color: var(--text-muted); text-decoration: line-through; }
+  .discount-badge { background: #FEF2F2; color: var(--accent); font-size: 0.78rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 20px; }
+  .fast-delivery { background: #F0FDF4; color: #16A34A; font-size: 0.78rem; font-weight: 700; padding: 0.25rem 0.7rem; border-radius: 20px; }
+  .features { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+  .features li { font-size: 0.88rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+  .features li::before { content: "✓"; color: #10B981; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
+  .btn-buy { display: block; background: var(--primary); color: white; text-align: center; padding: 1rem; border-radius: 12px; font-size: 1.05rem; font-weight: 700; text-decoration: none; transition: background 0.2s; border: none; cursor: pointer; width: 100%; }
+  .btn-buy:hover { background: var(--primary-dark); }
+  .shipping-note { font-size: 0.78rem; color: var(--text-muted); text-align: center; }
+
+  .how-section { background: var(--text); padding: 4rem 1.5rem; }
+  .how-inner { max-width: 900px; margin: 0 auto; }
+  .how-title { font-size: 1.5rem; font-weight: 700; color: white; text-align: center; margin-bottom: 2.5rem; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; }
+  .step { background: #1A1A2E; border: 1px solid #2D3748; border-radius: 14px; padding: 1.5rem; text-align: center; }
+  .step-emoji { font-size: 2.2rem; margin-bottom: 0.75rem; display: block; }
+  .step h3 { font-size: 0.92rem; font-weight: 700; color: white; margin-bottom: 0.4rem; }
+  .step p { font-size: 0.8rem; color: #6B7280; }
+
+  .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+  .review-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; }
+  .review-stars { color: #F59E0B; font-size: 0.9rem; margin-bottom: 0.5rem; }
+  .review-text { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; font-style: italic; }
+  .review-author { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+
+  footer { background: #0D0D0D; color: #4B5563; text-align: center; padding: 2rem; font-size: 0.8rem; margin-top: 2rem; }
+  footer strong { color: white; }
+  footer a { color: #6B7280; text-decoration: none; }
+  .footer-links { display: flex; gap: 1.5rem; justify-content: center; margin-top: 0.5rem; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Tech<span>Shop</span></div>
+  <div class="nav-links">
+    <a href="#productos">Productos</a>
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#comprar" class="nav-cta">Comprar ahora</a>
+  </div>
+</nav>
+
+<div class="trust-bar">
+  <span>🚚 Envío gratis desde España</span>
+  <span>⚡ Entrega en 3 días</span>
+  <span>⭐ +10.000 unidades vendidas</span>
+  <span>🔒 Devolución 90 días</span>
+</div>
+
+<section class="hero">
+  <div class="badge">🔥 Gadget viral del momento</div>
+  <h1>Tu cine en casa<br>por <em>menos de 70€</em></h1>
+  <p>El mini proyector que está arrasando en TikTok. Convierte cualquier pared o techo en una pantalla de cine al instante.</p>
+  <div class="hero-btns">
+    <a href="#comprar" class="btn-primary">Comprar ahora</a>
+    <a href="#como-funciona" class="btn-ghost">Ver cómo funciona</a>
+  </div>
+</section>
+
+<section class="section" id="productos">
+  <div class="section-header">
+    <h2 class="section-title">Nuestros productos</h2>
+    <span class="section-sub">Más productos próximamente</span>
+  </div>
+
+  <div class="products-grid">
+    <div class="product-card">
+      <div class="product-img">
+        🎥
+        <span class="product-badge">MÁS VENDIDO</span>
+        <span class="spain-badge">🇪🇸 Desde España</span>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Mini Proyector Magcubic HY300 Pro+</div>
+        <div class="product-desc">Android 14, WiFi 6, 8000 lúmenes, giro 360°. Proyecta en pared o techo.</div>
+        <div class="product-stars">★★★★★ <span>4.9 · 3.640 reseñas</span></div>
+        <div class="product-footer">
+          <div>
+            <span class="product-price-old">101,87€</span>
+            <span class="product-price">65,00€</span>
+          </div>
+          <a href="#comprar" class="btn-add">Ver más</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" style="opacity: 0.5; pointer-events: none;">
+      <div class="product-img" style="background: linear-gradient(135deg, #F3F4F6, #E5E7EB);">🔜</div>
+      <div class="product-body">
+        <div class="product-name">Próximamente...</div>
+        <div class="product-desc">Nuevo producto viral llegando muy pronto.</div>
+        <div class="product-footer">
+          <span class="product-price" style="color: var(--text-muted); font-size: 1rem;">Disponible pronto</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" style="opacity: 0.5; pointer-events: none;">
+      <div class="product-img" style="background: linear-gradient(135deg, #F3F4F6, #E5E7EB);">🔜</div>
+      <div class="product-body">
+        <div class="product-name">Próximamente...</div>
+        <div class="product-desc">Nuevo producto viral llegando muy pronto.</div>
+        <div class="product-footer">
+          <span class="product-price" style="color: var(--text-muted); font-size: 1rem;">Disponible pronto</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-detail" id="comprar">
+    <div class="detail-img">🎥</div>
+    <div class="detail-info">
+      <div class="detail-name">Mini Proyector Magcubic HY300 Pro+</div>
+      <div class="detail-stars">★★★★★ <span>4.9 · 3.640 reseñas</span></div>
+      <div class="detail-price-block">
+        <span class="detail-price">65,00€</span>
+        <span class="detail-price-old">101,87€</span>
+        <span class="discount-badge">-36%</span>
+        <span class="fast-delivery">⚡ Llega en 3 días</span>
+      </div>
+      <ul class="features">
+        <li>Android 14 con Netflix, YouTube y más</li>
+        <li>WiFi 6 para streaming sin cortes</li>
+        <li>8000 lúmenes — imagen nítida y brillante</li>
+        <li>Giro 360° — proyecta en pared o techo</li>
+        <li>Altavoz HiFi 5W integrado</li>
+        <li>Envío desde España en 3 días</li>
+      </ul>
+      <a href="TU_LINK_DE_PAYHIP_AQUI" class="btn-buy">🛒 Comprar ahora — 65,00€</a>
+      <p class="shipping-note">📦 Envío gratis desde España · Devolución gratuita 90 días</p>
+    </div>
+  </div>
+</section>
+
+<div class="how-section" id="como-funciona">
+  <div class="how-inner">
+    <h2 class="how-title">¿Cómo montas tu cine en casa?</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-emoji">📦</span>
+        <h3>1. Recíbelo en 3 días</h3>
+        <p>Envío directo desde España. Sin esperas largas.</p>
+      </div>
+      <div class="step">
+        <span class="step-emoji">🔌</span>
+        <h3>2. Conéctalo</h3>
+        <p>Enchúfalo y conéctalo a tu WiFi. En 2 minutos está listo.</p>
+      </div>
+      <div class="step">
+        <span class="step-emoji">📱</span>
+        <h3>3. Elige dónde proyectar</h3>
+        <p>Apunta a la pared o al techo. Gira 360° para ajustarlo.</p>
+      </div>
+      <div class="step">
+        <span class="step-emoji">🎬</span>
+        <h3>4. Disfruta</h3>
+        <p>Netflix, YouTube, Disney+... en pantalla gigante desde la cama.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <h2 class="section-title" style="margin-bottom: 2rem;">Lo que dicen nuestros clientes</h2>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Alucinante. Lo pongo en el techo y veo series desde la cama. Mis amigos fliparon cuando lo vieron."</p>
+      <div class="review-author">— Sergio M., Madrid</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Llegó en 2 días y la calidad es brutal para el precio. Mucho mejor que esperaba."</p>
+      <div class="review-author">— Ana R., Barcelona</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">"Lo uso cada noche. Netflix va fluido con WiFi 6. El altavoz es bastante bueno para su tamaño."</p>
+      <div class="review-author">— Pablo G., Valencia</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Tech Shop</strong> — Productos virales al mejor precio<br>
+  <div class="footer-links">
+    <a href="#">Política de privacidad</a>
+    <a href="#">Devoluciones</a>
+    <a href="#">Contacto</a>
+  </div>
+  <p style="margin-top: 0.75rem;">Envío en 3 días desde España · 2024</p>
+</footer>
+
+</body>
+</html>
