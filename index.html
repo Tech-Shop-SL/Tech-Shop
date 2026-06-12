@@ -48,7 +48,9 @@
     font-weight: 500;
   }
 
+  /* ESTILOS DEL BANNER PRINCIPAL (MODO OSCURO PREMIUM) */
   .hero {
+    background-color: #0D0D0D;
     padding: 6rem 2rem 7rem;
     text-align: center;
   }
@@ -77,7 +79,8 @@
   .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
   .btn-primary { background: var(--primary); color: white; padding: 0.9rem 2rem; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 1rem; transition: background 0.2s; }
   .btn-primary:hover { background: var(--primary-dark); }
-  .btn-ghost { background: transparent; color: white; padding: 0.9rem 2rem; border-radius: 10px; font-weight: 600; text-decoration: none; font-size: 1rem; border: 1px solid #374151; }
+  .btn-ghost { background: transparent; color: white; padding: 0.9rem 2rem; border-radius: 10px; font-weight: 600; text-decoration: none; font-size: 1rem; border: 1px solid #374151; transition: background 0.2s; }
+  .btn-ghost:hover { background: rgba(255, 255, 255, 0.05); }
 
   .section { padding: 4rem 1.5rem; max-width: 1000px; margin: 0 auto; }
   .section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2rem; }
@@ -199,7 +202,7 @@
   <span>🔒 Devolución 90 días</span>
 </div>
 
-<section class="hero" style="background: radial-gradient(circle at top, #1e293b 0%, #0d0d0d 100%);">
+<section class="hero">
   <div class="badge">🔥 TENDENCIAS TECNOLÓGICAS</div>
   <h1>Los gadgets más virales<br><em>al mejor precio</em></h1>
   <p>Equipa tu espacio con la tecnología que está arrasando en redes. Calidad premium, envíos rápidos en 5 días y precios imbatibles.</p>
